@@ -11,3 +11,6 @@ CREATE_ORDER = f"{BASE_URL}/api/v1/orders"
 
 # Список заказов
 GET_ORDERS_LIST = f"{BASE_URL}/api/v1/orders"
+
+# Удаление курьера
+COURIER_REMOVAL = f"{BASE_URL}/api/v1/courier/"

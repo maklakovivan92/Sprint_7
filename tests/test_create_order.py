@@ -1,10 +1,10 @@
 import allure
 import pytest
-import requests
 
 from api.endpoints import *
 from api.body_response import *
 from data.order_payload import *
+from conftest import *
 
 
 class TestCreatingAnOrder:
@@ -25,7 +25,7 @@ class TestCreatingAnOrder:
         payload = BASE_ORDER_PAYLOAD
         payload["color"] = color_value
 
-        response = requests.post(CREATE_ORDER, json=payload)
+        response = create_order_with_color_variants(payload)
 
         assert response.status_code == order_creation_code
         assert order_track_key in response.json()

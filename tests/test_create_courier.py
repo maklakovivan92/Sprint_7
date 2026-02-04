@@ -1,9 +1,8 @@
 import allure
-import requests
 
-from data.generator_registration import *
 from api.endpoints import *
 from api.body_response import *
+from conftest import *
 
 
 class TestCreatingACourier:
@@ -16,6 +15,8 @@ class TestCreatingACourier:
 
         assert response.status_code == code_for_successful_courier_creation
         assert response.json() == the_body_of_a_successfully_created_courier
+
+        courier_removal(login, password)
 
 
     @allure.title("Нельзя создать двух одинаковых курьеров")
@@ -31,13 +32,12 @@ class TestCreatingACourier:
             "firstName": first_name
         }
 
-        duplicate_response = requests.post(
-            CREATE_COURIER,
-            json=payload
-        )
+        duplicate_response = duplicate_courier(payload)
 
         assert duplicate_response.status_code == duplicate_courier_creation_code
         assert duplicate_response.json() == the_body_of_the_duplicate_courier_creature
+
+        courier_removal(login, password)
 
 
     @allure.title("Нельзя создать курьера без логина")
@@ -48,9 +48,11 @@ class TestCreatingACourier:
         assert response.json() == courier_creation_body_without_a_required_field
 
 
+
     @allure.title("Нельзя создать курьера без пароля")
     def test_create_without_a_password(self):
         response, login, first_name = (registering_a_new_courier_without_a_password())
 
         assert response.status_code == courier_creation_code_without_a_required_field
         assert response.json() == courier_creation_body_without_a_required_field
+
