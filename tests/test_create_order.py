@@ -24,7 +24,6 @@ class TestCreatingAnOrder:
     def test_create_order_with_color_variants(self, color_value):
         payload = BASE_ORDER_PAYLOAD
         payload["color"] = color_value
-
         response = create_order_with_color_variants(payload)
 
         assert response.status_code == order_creation_code
